@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 STATUS = [
-    ("DR", "Draft"),
-    ("PU", "Published")
+    ("Draft", "Draft"),
+    ("Published", "Published")
 ]
 
 class Category(models.Model):
