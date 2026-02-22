@@ -16,3 +16,8 @@ def posts_by_category(request, pk):
     # Fetch the posts that have the same category
     posts = category.blogs.filter(status='Published').order_by('-updated_at')
     return render(request, 'posts_by_category.html', context={'posts': posts, 'category': category})
+
+def blog_detail(request, slug):
+    blog = get_object_or_404(Blog, slug=slug)
+    similar_blogs = Blog.objects.filter(category=blog.category, status='Published').exclude(id=blog.id)
+    return render(request, 'blog_detail.html', context={'blog': blog, 'similar_blogs': similar_blogs})
