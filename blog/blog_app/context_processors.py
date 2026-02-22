@@ -1,0 +1,5 @@
+from blog_app.models import Category
+
+def get_categories(request):
+    categories = Category.objects.all()
+    return dict(categories=categories)
