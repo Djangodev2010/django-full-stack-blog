@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<!--Blog Posts-->
+<h3 class='text-warning ' style='letter-spacing: 2px'>Searched For - {{searched_term}}</h3>
+{% for post in blogs %}
+    <div class="blog-post" style='margin-top: 50px;'>
+      <h2 class="blog-post-title">{{post.title}}</h2>
+      <p class="blog-post-meta">{{post.created_at | timesince}} by <a href="#">{{post.author}}</a></p>
+      <p>{{post.short_description | truncatewords:30}}</p>
+     
+      <a href='{% url "blog_app:blog_detail" slug=post.slug %}'>Continue reading...</a>
+    </div>
+{% endfor %}
+
+{% endblock body %}
