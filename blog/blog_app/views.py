@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from blog_app.models import Category, Blog
 from django.http import Http404
 from django.db.models import Q
+from .forms import UserRegistrationForm, LoginForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import auth
 
 # Create your views here.
 
@@ -27,3 +31,32 @@ def blog_search(request):
     keyword = request.GET.get('keyword')
     blogs = Blog.objects.filter(Q(title__icontains=keyword) | Q(short_description__icontains=keyword), status='Published')
     return render(request, 'search.html', context={'blogs': blogs, 'searched_term': keyword})
+
+def register(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("blog_app:login")
+    else:
+        form = UserRegistrationForm()
+    return render(request, "register.html", {"form": form})
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return redirect('blog_app:home')
+            return redirect('blog_app:login')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', context={'form': form})
+
+def logout(request):
+    auth.logout(request)
+    return redirect('blog_app:home')

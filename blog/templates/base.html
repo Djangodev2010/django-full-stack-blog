@@ -27,8 +27,13 @@
             </form>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="btn btn-sm btn-warning" href="#">Login</a> &nbsp;
-            <a class="btn btn-sm btn-outline-secondary" href="#">Register</a>
+            {% if user.is_authenticated %}
+            <span style="padding-left:5px">Logged in as {{user.username}}</span>
+            <a class="btn btn-sm btn-warning" href='{% url "blog_app:logout" %}'>Logout</a> &nbsp;
+            {% else %}
+            <a class="btn btn-sm btn-warning" href='{% url "blog_app:login" %}'>Login</a> &nbsp;
+            {% endif %}
+            <a class="btn btn-sm btn-outline-secondary" href='{% url "blog_app:register" %}'>Register</a>
           </div>
         </div>
       </header>
