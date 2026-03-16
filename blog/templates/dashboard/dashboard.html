@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="row">
+    <!-- Right Sidebar -->
+    {% include "partials/right-sidebar-partial.html" %}
+
+    <!-- Left Side Content -->
+
+    <div class='col-md-9'>
+        <span>Logged in as <b>{{user}}</b></span>
+        <div class="row">
+            <div class="col">
+                <div class="card border-default mb-3">
+                    <div class="card-header text-center text-uppercase font-weight-bold">
+                        All Categories
+                    </div>
+                    <div class="card-body text-dark">
+                        <div class="card-title text-center">
+                            <h5>{{category_count}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card border-default mb-3">
+                    <div class="card-header text-center text-uppercase font-weight-bold">
+                        All Posts
+                    </div>
+                    <div class="card-body text-dark">
+                        <div class="card-title text-center">
+                            <h5>{{blog_count}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
