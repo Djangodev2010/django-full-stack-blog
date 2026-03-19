@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from blog_app.models import Category, Blog
 from django.http import Http404
 from django.db.models import Q
-from .forms import UserRegistrationForm, LoginForm
+from .forms import UserRegistrationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth

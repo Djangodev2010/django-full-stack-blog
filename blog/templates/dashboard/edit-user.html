@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+<div class="row">
+    {% include "partials/right-sidebar-partial.html" %}
+    <!-- Left Side Content -->
+    <div class='col-md-9'>
+        {% if perms.auth.change_user %}
+            <h2 class="text-center">Add Users</h2>
+            <form style="width: 500px; margin: auto;" method="POST" action='{% url "add-users" %}' enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button class="btn btn-success mb-2" type="submit">Add</button>
+            </form>
+    `   {% else %}
+            <h2>You Do Not Have The Permission to Access This Section!</h2>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock body %}

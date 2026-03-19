@@ -2,9 +2,11 @@
     <div class="col-md-3">
         <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
             <a href='{% url "dashboard" %}' class="nav-link text-dark {% if '/dashboard/' == request.path %}bg-warning{% endif %}">DashBoard</a>
-            <a href='{% url "categories" %}' class="nav-link text-dark {% if '/dashboard/categories/' == request.path or '/dashboard/categories/add' == request.path%}bg-warning{% endif %}">Categories</a>
-            <a href="#" class="nav-link text-dark {% if '/dashboard/blogs/' == request.path %}bg-warning{% endif %}">Blogs</a>
-            <a href="#" class="nav-link text-dark {% if '/dashboard/logour/' == request.path %}bg-warning{% endif %}">Logout</a>
-            <a href="#" class="nav-link text-dark {% if '/dashboard/users/' == request.path %}bg-warning{% endif %}">Users</a>
+            <a href='{% url "categories" %}' class="nav-link text-dark {% if '/dashboard/categories/' in request.path or '/dashboard/categories/add' == request.path%}bg-warning{% endif %}">Categories</a>
+            <a href='{% url "posts" %}' class="nav-link text-dark {% if '/dashboard/posts/' in request.path %}bg-warning{% endif %}">Blogs</a>
+            {% if perms.auth.view_user %}
+            <a href='{% url "users" %}' class="nav-link text-dark {% if '/dashboard/users/' == request.path %}bg-warning{% endif %}">Users</a>
+            {% endif %}
+            <a href='{% url "blog_app:logout" %}' class="nav-link text-dark {% if '/dashboard/logour/' == request.path %}bg-warning{% endif %}">Logout</a>
         </div>
     </div>

@@ -30,7 +30,7 @@ class Blog(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(choices=STATUS, default="Draft")
     is_featured = models.BooleanField(default=False)
-    featured_image = models.ImageField(upload_to='uploads/%Y/%m/%d')
+    featured_image = models.ImageField(upload_to='uploads/%Y/%m/%d', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Blogs'
