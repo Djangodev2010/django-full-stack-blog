@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from blog_app.models import Category, Blog
+from blog_app.models import Category, Blog, Comment
 from django.http import Http404
 from django.db.models import Q
 from .forms import UserRegistrationForm
@@ -24,8 +24,10 @@ def posts_by_category(request, pk):
 
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
+    comments = Comment.objects.filter(blog=blog)
+    comment_count = Comment.objects.filter(blog=blog).count()
     similar_blogs = Blog.objects.filter(category=blog.category, status='Published').exclude(id=blog.id)
-    return render(request, 'blog_detail.html', context={'blog': blog, 'similar_blogs': similar_blogs})
+    return render(request, 'blog_detail.html', context={'blog': blog, 'similar_blogs': similar_blogs, 'comments': comments, 'comment_count': comment_count})
 
 def blog_search(request):
     keyword = request.GET.get('keyword')
@@ -60,3 +62,20 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('blog_app:home')
+
+def add_comment(request, id):
+    if request.method == 'POST':
+        comment_body = request.POST.get('body')
+        user = request.user
+        blog = get_object_or_404(Blog, id=id)
+        comment = Comment.objects.create(blog=blog, body=comment_body, user=user)
+        comment.save()
+        comments = Comment.objects.filter(blog=blog)
+        similar_blogs = Blog.objects.filter(category=blog.category)
+        context = {
+            'blog': blog,
+            'comments': comments,
+            'similar_blogs': similar_blogs
+        }
+        return redirect('blog_app:blog_detail', slug=blog.slug)
+    return render(request, 'blog_detail.html', context=context)

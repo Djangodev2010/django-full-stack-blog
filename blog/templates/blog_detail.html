@@ -15,6 +15,35 @@
 				<div class="blog-content">
 					{{ blog.blog_body|linebreaks }}
 				</div>
+				<h3>Comments ({{comment_count}})</h3>
+				{% if user.is_authenticated %}
+					<form method="post" action='{% url "blog_app:add-comment" blog.id %}' class="mt-3">
+						{% csrf_token %}
+						<div class="mb-3">
+							<label for="id_body" class="form-label">Add Comment</label>
+							<textarea name="body" id="id_body" class="form-control" rows="4" placeholder="Write your comment here..."></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary mb-3">Submit</button>
+					</form>
+				{% else %}
+				<h5 class="mt-3"><a href='{% url "blog_app:login" %}'>Login</a> Or <a href='{% url "blog_app:register" %}'>Register</a> To Comment!<h5>
+				{% endif %}
+				{% if comments %}
+					{% for comment in comments %}
+						<div class="card mb-2">
+							<div class="card-body">
+								<p class="card-text mb-0">{{comment.body}}</p>
+								<span>
+									<small>
+										By {{comment.user}} - {{comment.updated_at | timesince }} ago
+									</small>
+								</span>
+							</div>
+						</div>
+					{% endfor %}
+				{% else %}
+				<h5 class="mt-3">No Comments Yet! Add One Now!</h5>
+				{% endif %}
 			</article>
 		</main>
 

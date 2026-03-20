@@ -44,3 +44,13 @@ class SocialLinks(models.Model):
 
     def __str__(self):
         return self.platform
+
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(max_length=555)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'By: ' + self.user.username + ' For:' + self.blog.title
